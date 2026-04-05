@@ -27,7 +27,10 @@
   border: 1px solid rgba(255, 255, 255, 0.4);
   position: relative;
   min-height: 620px;
-  isolation: isolate; /* Force browser to respect clipping with transformed children */
+  /* Absolute Clipping Guard */
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  mask-image: radial-gradient(white, black);
+  isolation: isolate;
 }
 
 /* Form Side */
@@ -38,14 +41,12 @@
   flex-direction: column;
   justify-content: center;
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 2;
   background: var(--bg-color);
-  border-radius: 3.5rem 0 0 3.5rem; /* Match parent's outer corners */
+  z-index: 1;
 }
 
 .auth-card-neuromorphic.mode-register .auth-form-side {
   transform: translateX(100%);
-  border-radius: 0 3.5rem 3.5rem 0; /* Flip outer corners */
 }
 
 .auth-header {
@@ -144,19 +145,32 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2; /* Project over the form section */
+  overflow: visible !important;
+}
+
+/* Premium Liquid Projection */
+.auth-info-side::before {
+  content: "";
+  position: absolute;
+  top: -10%;
+  left: -8rem;
+  width: 16rem;
+  height: 120%;
+  background: inherit;
+  border-radius: 50%;
   transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 1;
-  /* Advanced Organic Geometry (Bows Left) */
-  border-radius: 12rem 3.5rem 3.5rem 12rem / 50% 3.5rem 3.5rem 50%;
-  will-change: transform; /* Fixes hardware-accelerated clipping bugs */
-  mask-image: radial-gradient(white, black); /* Standard property */
-  -webkit-mask-image: -webkit-radial-gradient(white, black); /* Force-clips corners in Safari/Chrome */
+  z-index: -1;
 }
 
 .auth-card-neuromorphic.mode-register .auth-info-side {
   transform: translateX(-100%);
-  /* Advanced Organic Geometry (Bows Right) */
-  border-radius: 3.5rem 12rem 12rem 3.5rem / 3.5rem 50% 50% 3.5rem;
+}
+
+.auth-card-neuromorphic.mode-register .auth-info-side::before {
+  left: auto;
+  right: -8rem;
 }
 
 .auth-info-side::after {
