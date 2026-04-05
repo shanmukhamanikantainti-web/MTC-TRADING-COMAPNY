@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# production build
+dist/
+
+# environment variables
+.env
+.env.local
+.env.*.local
+
+# editor
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
