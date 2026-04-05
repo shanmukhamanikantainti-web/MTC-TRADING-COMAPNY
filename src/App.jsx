@@ -9,6 +9,8 @@ import Heritage from './pages/Heritage';
 import Checkout from './pages/Checkout';
 import AdminOrders from './pages/AdminOrders';
 import AdminInquiries from './pages/AdminInquiries';
+import AdminPanel from './pages/AdminPanel';
+import AdminProducts from './pages/AdminProducts';
 import Profile from './pages/Profile';
 import AdminRoute from './components/AdminRoute';
 import LanguageSelect from './pages/LanguageSelect';
