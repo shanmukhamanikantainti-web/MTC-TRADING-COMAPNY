@@ -16,6 +16,7 @@ const Checkout = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
+  const [utrNumber, setUtrNumber] = useState('');
   const [formData, setFormData] = useState({
     full_name: user?.user_metadata?.full_name || '',
     email: user?.email || '',
@@ -43,6 +44,11 @@ const Checkout = () => {
   const handlePlaceOrder = async () => {
     if (cart.length === 0) return;
     
+    if (!utrNumber || utrNumber.trim().length < 8) {
+      alert("Please enter a valid UPI Transaction ID or UTR Number (minimum 8 characters) to confirm your payment.");
+      return;
+    }
+
     setIsProcessing(true);
     
     try {
@@ -55,7 +61,7 @@ const Checkout = () => {
         pincode: formData.pincode,
         total_amount: cartTotal,
         items: cart, // JSONB column
-        status: 'processing'
+        status: `processing (UTR: ${utrNumber})`
       };
 
       const { data, error } = await supabase
@@ -279,11 +285,28 @@ const Checkout = () => {
                   </div>
                   <h4 style={{ marginTop: '1.5rem', color: '#444', fontSize: '1.1rem', fontWeight: 600 }}>Phone Number / UPI ID: <span style={{ color: '#881337' }}>9440180052</span></h4>
                   <p style={{ color: '#777', fontSize: '0.9rem', marginTop: '0.5rem' }}>Send exactly <strong>₹{cartTotal}</strong> to confirm your order.</p>
+                  <div className="form-group-premium" style={{ marginBottom: '1.5rem' }}>
+                    <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>UPI Transaction ID / UTR Number</label>
+                    <input 
+                      type="text" 
+                      placeholder="Enter 12-digit UTR number here" 
+                      value={utrNumber}
+                      onChange={(e) => setUtrNumber(e.target.value)}
+                      required 
+                      style={{ 
+                        width: '100%', 
+                        padding: '12px 15px', 
+                        borderRadius: '8px', 
+                        border: '1px solid #ccc',
+                        fontSize: '1rem'
+                      }}
+                    />
+                  </div>
                 </div>
 
                 <div className="payment-notice glass" style={{ textAlign: 'left' }}>
                   <ShieldCheck size={24} />
-                  <p>Do not close or refresh this page! After successfully completing the payment from your mobile device, click the confirmation button below to finalize your order.</p>
+                  <p>Do not close or refresh this page! After successfully completing the payment from your mobile device, enter the Transaction ID above and click confirmation to finalize your order.</p>
                 </div>
 
                 <div className="checkout-actions">
