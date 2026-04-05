@@ -245,7 +245,7 @@ const Checkout = () => {
                 <div className="review-summary">
                   <div className="review-item">
                     <h4>Shipping to:</h4>
-                    <p>{formData.full_name}, {formData.address}, {formData.city} - {formData.pincode}</p>
+                    <p>{formData?.full_name}, {formData?.address}, {formData?.city} - {formData?.pincode}</p>
                   </div>
                   <div className="review-item">
                     <h4>Payment:</h4>
@@ -284,7 +284,7 @@ const Checkout = () => {
                       <p>Qty: {item.quantity}</p>
                     </div>
                     <div className="mini-price">
-                      ₹{item.price * item.quantity}
+                      ₹{(item?.price || 0) * (item?.quantity || 0)}
                     </div>
                   </div>
                 ))}

@@ -24,12 +24,18 @@ export const LanguageProvider = ({ children }) => {
   };
 
   const t = (path) => {
-    const keys = path.split('.');
-    let result = translations[language] || translations['en'];
-    for (const key of keys) {
-      result = result ? result[key] : null;
+    if (!path) return "";
+    try {
+      const keys = path.split('.');
+      let result = translations[language] || translations['en'] || {};
+      for (const key of keys) {
+        result = result ? result[key] : null;
+      }
+      return result || path;
+    } catch (e) {
+      console.warn("Translation Error on path:", path, e);
+      return path;
     }
-    return result || path;
   };
 
   const value = {

@@ -8,7 +8,7 @@ import './Cart.css';
 const Cart = () => {
   const { cart, removeFromCart, updateQuantity, cartTotal, cartCount } = useCart();
 
-  if (cart.length === 0) {
+  if (cart?.length === 0) {
     return (
       <div className="cart-page texture-bg">
         <Navbar />
@@ -38,7 +38,7 @@ const Cart = () => {
             {cart.map((item) => (
               <div key={item.id} className="cart-item-premium glass">
                 <div className="item-img-wrap">
-                  <img src={item.image} alt={item.name} />
+                  <img src={item?.image} alt={item?.name} onError={(e) => e.target.src = '/vite.svg'} />
                 </div>
                 
                 <div className="item-details">
@@ -58,7 +58,7 @@ const Cart = () => {
                 </div>
 
                 <div className="item-total">
-                  ₹{item.price * item.quantity}
+                  ₹{(item?.price || 0) * (item?.quantity || 0)}
                 </div>
 
                 <button onClick={() => removeFromCart(item.id)} className="remove-btn-premium">

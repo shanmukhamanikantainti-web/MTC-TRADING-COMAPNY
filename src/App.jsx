@@ -12,8 +12,10 @@ import AdminInquiries from './pages/AdminInquiries';
 import AdminPanel from './pages/AdminPanel';
 import AdminProducts from './pages/AdminProducts';
 import Profile from './pages/Profile';
+import NotFound from './pages/NotFound';
 import AdminRoute from './components/AdminRoute';
 import LanguageSelect from './pages/LanguageSelect';
+import ErrorBoundary from './components/ErrorBoundary';
 import { useLanguage } from './context/LanguageContext';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
@@ -48,29 +50,34 @@ function App() {
   }
 
   return (
-    <AuthProvider>
-      <CartProvider>
-      <div className="app-container">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/wholesale" element={<Wholesale />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/about" element={<Heritage />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/admin-login" element={<Login />} />
-          
-          {/* Admin Routes */}
-          <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />
-          <Route path="/admin/products" element={<AdminRoute><AdminProducts /></AdminRoute>} />
-          <Route path="/admin/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
-          <Route path="/admin/inquiries" element={<AdminRoute><AdminInquiries /></AdminRoute>} />
-        </Routes>
-      </div>
-      </CartProvider>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <CartProvider>
+          <div className="app-container">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/products" element={<Products />} />
+              <Route path="/wholesale" element={<Wholesale />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/about" element={<Heritage />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/admin-login" element={<Login />} />
+              
+              {/* Admin Routes */}
+              <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />
+              <Route path="/admin/products" element={<AdminRoute><AdminProducts /></AdminRoute>} />
+              <Route path="/admin/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
+              <Route path="/admin/inquiries" element={<AdminRoute><AdminInquiries /></AdminRoute>} />
+
+              {/* Catch-all 404 Route */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </div>
+        </CartProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   );
 }
 

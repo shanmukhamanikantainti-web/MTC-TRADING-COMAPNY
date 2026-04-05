@@ -14,7 +14,8 @@ import {
   ShoppingBag,
   Loader2,
   Calendar,
-  Lock
+  Lock,
+  ArrowRight
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import './Profile.css';
@@ -128,8 +129,8 @@ const Profile = () => {
                   <div className="order-items-summary">
                     {order.items?.map((item, idx) => (
                       <div key={idx} className="item-line">
-                        <span className="item-name">{item.name}</span>
-                        <span className="item-qty">x{item.quantity}</span>
+                        <span className="item-name">{item?.name || "Premium Item"}</span>
+                        <span className="item-qty">x{item?.quantity || "1"}</span>
                       </div>
                     ))}
                   </div>
@@ -141,7 +142,7 @@ const Profile = () => {
                     </div>
                     <div className="total-amount">
                       <span className="total-label">Total</span>
-                      <span className="total-value">₹{order.total_amount?.toLocaleString()}</span>
+                      <span className="total-value">₹{order?.total_amount?.toLocaleString() || "0"}</span>
                     </div>
                   </div>
                 </div>
