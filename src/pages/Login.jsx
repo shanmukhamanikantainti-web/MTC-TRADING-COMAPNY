@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { User, Phone, Mail, ArrowRight, Lock, Eye, EyeOff, Loader2, Landmark, LogIn, UserPlus } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import logoImg from '../assets/logo.png';
 import './Login.css';
 
 const Login = () => {
-  const { identifyUser, t } = useLanguage();
+  const { t } = useLanguage();
+  const { signIn, signUp } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [mode, setMode] = useState('login'); // 'login' or 'register'
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -16,27 +19,46 @@ const Login = () => {
 
   const [formData, setFormData] = useState({
     name: '',
-    identifier: '', // Email or Phone
+    email: '', // Strictly Email for Supabase
     password: '',
     confirmPassword: '',
     company: '',
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
+
     if (mode === 'register' && formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match.');
+      setError('Passwords do not match.');
       return;
     }
+
     setLoading(true);
-    setTimeout(() => {
-      identifyUser(formData.name, formData.identifier);
+
+    try {
+      if (mode === 'login') {
+        const { error: signInError } = await signIn(formData.email, formData.password);
+        if (signInError) throw signInError;
+        // On success, redirect to profile
+        navigate('/profile');
+      } else {
+        const metadata = { full_name: formData.name, company: formData.company };
+        const { error: signUpError } = await signUp(formData.email, formData.password, metadata);
+        if (signUpError) throw signUpError;
+        // On success, redirect to profile
+        navigate('/profile');
+      }
+    } catch (err) {
+      console.error("Auth error:", err);
+      setError(err.message || 'Authentication failed. Please verify your credentials.');
+    } finally {
       setLoading(false);
-      navigate('/profile');
-    }, 1200);
+    }
   };
 
   const handleChange = (e) => {
+    setError(null); // Clear error on typing
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -62,6 +84,11 @@ const Login = () => {
             </div>
 
             <form className="auth-form-refined" onSubmit={handleSubmit}>
+              {error && (
+                <div style={{ color: '#d32f2f', backgroundColor: '#ffebee', padding: '0.8rem', borderRadius: '8px', marginBottom: '1.25rem', fontSize: '0.9rem', border: '1px solid #ffcdd2', fontWeight: 500 }}>
+                  {error}
+                </div>
+              )}
 
               {/* Name — shown in register mode only */}
               {mode === 'register' && (
@@ -78,17 +105,16 @@ const Login = () => {
                 </div>
               )}
 
-              {/* Email / Phone — shown in both modes */}
+              {/* Email — shown in both modes */}
               <div className="form-group-premium">
                 <label>
-                  {formData.identifier.includes('@') ? <Mail size={16} /> : <Phone size={16} />}
-                  Email or Phone Number
+                  <Mail size={16} /> Email Address
                 </label>
                 <input
-                  type="text"
-                  name="identifier"
-                  placeholder="e.g. +91 9170707767 or trader@mtc.com"
-                  value={formData.identifier}
+                  type="email"
+                  name="email"
+                  placeholder="e.g. trader@mtc.com"
+                  value={formData.email}
                   onChange={handleChange}
                   required
                 />

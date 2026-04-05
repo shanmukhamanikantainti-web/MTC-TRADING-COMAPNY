@@ -14,32 +14,35 @@ import {
   ShieldCheck,
   History
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import { supabase } from '../services/supabase';
 import './Profile.css';
 
 const Profile = () => {
-  const { userProfile, t } = useLanguage();
+  const { t } = useLanguage();
+  const { user, loading: authLoading, signOut } = useAuth();
+  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (userProfile?.phone || userProfile?.identifier) {
+    // If not loading and no user, we could redirect, but we have a guest UI below
+    if (!authLoading && user) {
       fetchOrders();
-    } else {
+    } else if (!authLoading) {
       setLoading(false);
     }
-  }, [userProfile]);
+  }, [user, authLoading]);
 
   const fetchOrders = async () => {
     try {
-      const identifier = userProfile.phone || userProfile.identifier;
       const { data, error } = await supabase
         .from('orders')
         .select('*')
-        .eq('customer_phone', identifier)
+        .eq('user_id', user.id)
         .order('created_at', { ascending: false });
       
       if (error) throw error;
@@ -51,7 +54,21 @@ const Profile = () => {
     }
   };
 
-  if (!userProfile) {
+  const handleSignOut = async () => {
+    await signOut();
+    navigate('/login');
+  };
+
+  // Prevent showing guest UI while verifying session
+  if (authLoading) {
+    return (
+      <div className="profile-page texture-bg" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+        <Loader2 className="animate-spin" size={64} style={{ color: 'var(--primary-color)' }} />
+      </div>
+    );
+  }
+
+  if (!user) {
     return (
       <div className="profile-page texture-bg">
         <Navbar />
@@ -88,17 +105,20 @@ const Profile = () => {
           <div className="user-card-glass shadow-lg">
             <div className="user-avatar-wrap">
               <div className="user-avatar">
-                {userProfile.name?.charAt(0) || 'U'}
+                {user.user_metadata?.full_name?.charAt(0) || user.email?.charAt(0) || 'U'}
               </div>
             </div>
             <div className="user-info-text">
-              <h1 className="user-name">{userProfile.name}</h1>
+              <h1 className="user-name">{user.user_metadata?.full_name || 'Trader'}</h1>
               <div className="user-meta">
                 <span className="user-phone">
-                  <Phone size={14} /> {userProfile.phone || userProfile.identifier}
+                  <Mail size={14} /> {user.email}
                 </span>
                 <span className="user-status-badge">Heritage Member</span>
               </div>
+              <button onClick={handleSignOut} style={{ marginTop: '1rem', padding: '0.4rem 1rem', background: '#fff', border: '1px solid #ddd', borderRadius: '4px', cursor: 'pointer', fontWeight: 600, color: '#333' }}>
+                Sign Out
+              </button>
             </div>
           </div>
         </div>

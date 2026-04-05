@@ -7,20 +7,9 @@ export const useLanguage = () => useContext(LanguageContext);
 
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguageState] = useState(localStorage.getItem('mtc_lang') || null);
-  const [userProfile, setUserProfile] = useState(() => {
-    const saved = localStorage.getItem('mtc_user');
-    return saved ? JSON.parse(saved) : null;
-  });
-
   const setLanguage = (lang) => {
     setLanguageState(lang);
     localStorage.setItem('mtc_lang', lang);
-  };
-
-  const identifyUser = (name, identifier) => {
-    const profile = { name, identifier, phone: identifier };
-    setUserProfile(profile);
-    localStorage.setItem('mtc_user', JSON.stringify(profile));
   };
 
   const t = (path) => {
@@ -41,8 +30,6 @@ export const LanguageProvider = ({ children }) => {
   const value = {
     language,
     setLanguage,
-    userProfile,
-    identifyUser,
     t
   };
 

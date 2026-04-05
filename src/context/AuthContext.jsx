@@ -27,10 +27,24 @@ export const AuthProvider = ({ children }) => {
     return () => subscription.unsubscribe();
   }, []);
 
+  // Clear the old mock storage just in case so it doesn't cause ghosting
+  useEffect(() => {
+    localStorage.removeItem('mtc_user'); 
+  }, []);
+
   const value = {
     user,
     loading,
-    signOut: () => supabase.auth.signOut(),
+    signIn: (email, password) => supabase.auth.signInWithPassword({ email, password }),
+    signUp: (email, password, metadata) => supabase.auth.signUp({ 
+      email, 
+      password,
+      options: { data: metadata }
+    }),
+    signOut: async () => {
+      localStorage.removeItem('mtc_user'); // Hard nuke legacy fallback
+      await supabase.auth.signOut();
+    },
   };
 
   return (
