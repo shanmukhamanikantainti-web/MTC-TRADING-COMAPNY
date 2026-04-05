@@ -218,9 +218,6 @@ const Checkout = () => {
                     <CreditCard size={20} />
                     <span>UPI / Cards / NetBanking</span>
                   </div>
-                  <div className="payment-method disabled">
-                    <span>Cash on Delivery (Wholesale Disabled)</span>
-                  </div>
                 </div>
                 
                 <div className="payment-notice glass">
