@@ -5,19 +5,21 @@ import { Truck, CreditCard, CheckCircle, ArrowRight, ArrowLeft, ShieldCheck, Map
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import { supabase } from '../services/supabase';
+import { useLanguage } from '../context/LanguageContext';
 import './Checkout.css';
 
 const Checkout = () => {
   const { cart, cartTotal, clearCart } = useCart();
   const { user } = useAuth();
+  const { userProfile } = useLanguage();
   const [step, setStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [orderNumber, setOrderNumber] = useState('');
   const [formData, setFormData] = useState({
-    full_name: '',
+    full_name: userProfile?.name || '',
     email: '',
-    phone: '',
+    phone: userProfile?.phone || '',
     address: '',
     city: '',
     pincode: ''

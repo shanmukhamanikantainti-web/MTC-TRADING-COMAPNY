@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import ProductCard from '../components/ProductCard';
@@ -15,6 +18,8 @@ import horsegramImg from '../assets/horse_gram.png';
 import logoImg from '../assets/logo.png';
 
 const Home = () => {
+  const { addToCart } = useCart();
+  const { t } = useLanguage();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -128,7 +133,7 @@ const Home = () => {
               </div>
             ) : (
               products.map(product => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard key={product.id} product={product} onAddToCart={() => addToCart(product)} />
               ))
             )}
           </div>
@@ -137,6 +142,19 @@ const Home = () => {
 
       {/* Heritage / Trust Section */}
       <section className="heritage-section section-padding glass scroll-reveal">
+        <div className="hero-content scroll-reveal">
+          <div className="hero-badge">{t('hero.title')}</div>
+          <h1>{t('hero.subtitle')}</h1>
+          <p className="hero-description">{t('hero.description')}</p>
+          <div className="hero-actions">
+            <Link to="/products" className="btn-primary-heritage">
+              {t('hero.explore')} <ArrowRight size={20} />
+            </Link>
+            <Link to="/wholesale" className="btn-secondary-heritage">
+              {t('hero.quote')}
+            </Link>
+          </div>
+        </div>
         <div className="container heritage-grid">
           <div className="heritage-item">
             <Leaf className="heritage-icon" />

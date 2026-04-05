@@ -7,11 +7,12 @@ import Cart from './pages/Cart';
 import Wholesale from './pages/Wholesale';
 import Heritage from './pages/Heritage';
 import Checkout from './pages/Checkout';
-import AdminPanel from './pages/AdminPanel';
-import AdminProducts from './pages/AdminProducts';
 import AdminOrders from './pages/AdminOrders';
 import AdminInquiries from './pages/AdminInquiries';
+import Profile from './pages/Profile';
 import AdminRoute from './components/AdminRoute';
+import LanguageSelect from './pages/LanguageSelect';
+import { useLanguage } from './context/LanguageContext';
 import { CartProvider } from './context/CartContext';
 import { AuthProvider } from './context/AuthContext';
 import { useEffect } from 'react';
@@ -38,6 +39,12 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [navigate]);
 
+  const { language, userProfile } = useLanguage();
+
+  if (!language || !userProfile) {
+    return <LanguageSelect />;
+  }
+
   return (
     <AuthProvider>
       <CartProvider>
@@ -46,10 +53,11 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/wholesale" element={<Wholesale />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<Heritage />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/admin-login" element={<Login />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />
