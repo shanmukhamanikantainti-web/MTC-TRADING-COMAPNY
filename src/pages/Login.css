@@ -24,7 +24,7 @@
   position: relative;
   width: 100%;
   max-width: 900px;
-  min-height: 580px;
+  min-height: 750px; /* Increased to fit the register form inputs */
   border-radius: 2.5rem;
   box-shadow: 14px 14px 36px #dedad2, -14px -14px 36px #ffffff;
   border: 1px solid rgba(255,255,255,0.5);
@@ -47,6 +47,7 @@
   background: var(--bg-color);
   z-index: 2;
   transition: all 0.65s cubic-bezier(0.77, 0, 0.18, 1);
+  overflow-y: auto; /* Enable scrolling if fields exceed height */
 }
 
 /* Register mode: form moves to the RIGHT half */
