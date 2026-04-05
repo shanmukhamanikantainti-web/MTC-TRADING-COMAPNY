@@ -33,7 +33,7 @@ const Checkout = () => {
 
   const handleNext = (e) => {
     if (e) e.preventDefault();
-    if (step < 3) setStep(step + 1);
+    if (step < 4) setStep(step + 1);
   };
 
   const handleBack = () => {
@@ -115,9 +115,14 @@ const Checkout = () => {
             <span>Payment</span>
           </div>
           <div className="step-line"></div>
-          <div className={`step-item ${step >= 3 ? 'active' : ''}`}>
+          <div className={`step-item ${step >= 3 ? 'active' : ''} ${step > 3 ? 'completed' : ''}`}>
             <div className="step-num">3</div>
             <span>Review</span>
+          </div>
+          <div className="step-line"></div>
+          <div className={`step-item ${step >= 4 ? 'active' : ''}`}>
+            <div className="step-num">4</div>
+            <span>Pay</span>
           </div>
         </div>
 
@@ -253,11 +258,48 @@ const Checkout = () => {
                     <ArrowLeft size={18} /> Back
                   </button>
                   <button 
+                    onClick={() => setStep(4)} 
+                    className="place-order-btn"
+                  >
+                    Proceed to Payment QR <ArrowRight size={18} />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {step === 4 && (
+              <div className="form-card-premium glass" style={{ textAlign: 'center' }}>
+                <h3><CreditCard size={24} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 10, color: '#f7931a' }} /> Complete Payment Via UPI</h3>
+                <p>Scan the QR code below using any UPI app (GPay, PhonePe, Paytm, etc.) to pay exactly <strong style={{ color: '#881337', fontSize: '1.2rem' }}>₹{cartTotal}</strong>.</p>
+                
+                <div style={{ margin: '2rem 0' }}>
+                  <div style={{ background: 'white', padding: '1.5rem', display: 'inline-block', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.08)' }}>
+                    <img 
+                      src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(`upi://pay?pa=9440180052@ybl&pn=MTC Trading Co&am=${cartTotal}&cu=INR`)}`} 
+                      alt="UPI Payment QR Code" 
+                      style={{ width: '250px', height: '250px' }}
+                    />
+                  </div>
+                  <h4 style={{ marginTop: '1.5rem', color: '#444', fontSize: '1.1rem', fontWeight: 600 }}>Phone Number / UPI ID: <span style={{ color: '#881337' }}>9440180052</span></h4>
+                  <p style={{ color: '#777', fontSize: '0.9rem', marginTop: '0.5rem' }}>Send exactly <strong>₹{cartTotal}</strong> to confirm your order.</p>
+                </div>
+
+                <div className="payment-notice glass" style={{ textAlign: 'left' }}>
+                  <ShieldCheck size={24} />
+                  <p>Do not close or refresh this page! After successfully completing the payment from your mobile device, click the confirmation button below to finalize your order.</p>
+                </div>
+
+                <div className="checkout-actions">
+                  <button onClick={handleBack} className="back-btn-premium" disabled={isProcessing}>
+                    <ArrowLeft size={18} /> Back
+                  </button>
+                  <button 
                     onClick={handlePlaceOrder} 
                     className={`place-order-btn ${isProcessing ? 'processing' : ''}`}
                     disabled={isProcessing}
+                    style={{ background: '#16a34a', boxShadow: '0 10px 20px rgba(22, 163, 74, 0.2)' }}
                   >
-                    {isProcessing ? 'Processing...' : 'Securely Pay & Place Order'}
+                    {isProcessing ? 'Verifying Receipt...' : 'I Have Made The Payment'}
                   </button>
                 </div>
               </div>
