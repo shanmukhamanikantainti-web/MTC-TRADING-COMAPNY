@@ -11,6 +11,7 @@ import AdminOrders from './pages/AdminOrders';
 import AdminInquiries from './pages/AdminInquiries';
 import AdminPanel from './pages/AdminPanel';
 import AdminProducts from './pages/AdminProducts';
+import AdminUsers from './pages/AdminUsers';
 import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 import AdminRoute from './components/AdminRoute';
@@ -70,6 +71,7 @@ function App() {
               <Route path="/admin/products" element={<AdminRoute><AdminProducts /></AdminRoute>} />
               <Route path="/admin/orders" element={<AdminRoute><AdminOrders /></AdminRoute>} />
               <Route path="/admin/inquiries" element={<AdminRoute><AdminInquiries /></AdminRoute>} />
+              <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
 
               {/* Catch-all 404 Route */}
               <Route path="*" element={<NotFound />} />

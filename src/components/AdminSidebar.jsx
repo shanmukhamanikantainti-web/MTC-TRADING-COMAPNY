@@ -5,7 +5,8 @@ import {
   MessageSquare, 
   LayoutDashboard, 
   Package, 
-  LogOut 
+  LogOut,
+  Users
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import logoImg from '../assets/logo.png';
@@ -38,6 +39,9 @@ const AdminSidebar = ({ subtitle = "Super Admin Access" }) => {
         </Link>
         <Link to="/admin/inquiries" className={`nav-item ${isActive('/admin/inquiries') ? 'active' : ''}`}>
           <MessageSquare size={20} /> B2B Leads
+        </Link>
+        <Link to="/admin/users" className={`nav-item ${isActive('/admin/users') ? 'active' : ''}`}>
+          <Users size={20} /> User Management
         </Link>
       </nav>
 
