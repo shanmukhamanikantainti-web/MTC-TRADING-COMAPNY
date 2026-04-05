@@ -47,7 +47,6 @@
   transform: translateX(100%);
   border-radius: 0 3.5rem 3.5rem 0; /* Flip outer corners */
 }
- Broadway 
 
 .auth-header {
   margin-bottom: 2.5rem;
@@ -147,15 +146,17 @@
   position: relative;
   transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 1;
-  /* Precision Organic Clip-Path Shape */
-  clip-path: ellipse(110% 140% at 100% 50%); /* Arc bowing left */
-  border-radius: 0 3.5rem 3.5rem 0;
+  /* Advanced Organic Geometry (Bows Left) */
+  border-radius: 12rem 3.5rem 3.5rem 12rem / 50% 3.5rem 3.5rem 50%;
+  will-change: transform; /* Fixes hardware-accelerated clipping bugs */
+  mask-image: radial-gradient(white, black); /* Standard property */
+  -webkit-mask-image: -webkit-radial-gradient(white, black); /* Force-clips corners in Safari/Chrome */
 }
 
 .auth-card-neuromorphic.mode-register .auth-info-side {
   transform: translateX(-100%);
-  clip-path: ellipse(110% 140% at 0% 50%); /* Arc bowing right */
-  border-radius: 3.5rem 0 0 3.5rem;
+  /* Advanced Organic Geometry (Bows Right) */
+  border-radius: 3.5rem 12rem 12rem 3.5rem / 3.5rem 50% 50% 3.5rem;
 }
 
 .auth-info-side::after {
