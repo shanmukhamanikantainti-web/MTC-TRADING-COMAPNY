@@ -30,16 +30,23 @@
 }
 
 .auth-card-neuromorphic.mode-register {
-  flex-direction: row-reverse;
+  /* We remove flex-direction: row-reverse and use transforms for smooth animation */
 }
 
 /* Form Side */
 .auth-form-side {
-  flex: 1.2;
+  flex: 1; /* Symmetric split for smooth sliding */
   padding: 4rem 3rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 2;
+  background: var(--bg-color);
+}
+
+.auth-card-neuromorphic.mode-register .auth-form-side {
+  transform: translateX(100%);
 }
 
 .auth-header {
@@ -139,6 +146,12 @@
   justify-content: center;
   position: relative;
   overflow: hidden;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+}
+
+.auth-card-neuromorphic.mode-register .auth-info-side {
+  transform: translateX(-100%);
 }
 
 .auth-info-side::after {
