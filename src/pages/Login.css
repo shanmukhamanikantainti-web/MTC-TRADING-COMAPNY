@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8rem 1.5rem 4rem; /* Increased top padding to avoid Navbar interference */
+  padding: 12rem 1.5rem 6rem; /* Substantially increased top padding to eliminate Navbar interference */
 }
 
 /* Base Card (Embossed) */
@@ -27,7 +27,6 @@
   border: 1px solid rgba(255, 255, 255, 0.5);
   position: relative;
   min-height: 600px;
-  transition: flex-direction 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .auth-card-neuromorphic.mode-register {

@@ -45,7 +45,7 @@ const Login = () => {
             <div className="auth-header">
               <span className="auth-subtitle">MTC HERITAGE PORTAL</span>
               <h1 className="auth-title">
-                {mode === 'login' ? 'Identify Your Account' : 'Heritage Onboarding'}
+                {mode === 'login' ? 'Identify Your Account' : 'Create Account'}
               </h1>
               <p className="auth-desc">
                 {mode === 'login' 
