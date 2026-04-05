@@ -60,6 +60,7 @@ function App() {
           <Route path="/about" element={<Heritage />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/admin-login" element={<Login />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />

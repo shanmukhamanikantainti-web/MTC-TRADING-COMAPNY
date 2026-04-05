@@ -19,7 +19,7 @@ const AdminRoute = ({ children }) => {
 
   // Check if authenticated AND matches super admin email
   if (!user || user.email !== SUPER_ADMIN_EMAIL) {
-    return <Navigate to="/admin-login" replace />;
+    return <Navigate to="/login" replace />;
   }
 
   return children;
