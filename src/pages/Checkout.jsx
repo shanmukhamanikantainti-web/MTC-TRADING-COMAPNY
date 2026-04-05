@@ -57,11 +57,11 @@ const Checkout = () => {
         full_name: formData.full_name,
         email: formData.email,
         phone: formData.phone,
-        address: `${formData.address}, ${formData.city}`,
+        address: `${formData.address}, ${formData.city} | UTR: ${utrNumber}`,
         pincode: formData.pincode,
         total_amount: cartTotal,
         items: cart, // JSONB column
-        status: `processing (UTR: ${utrNumber})`
+        status: 'processing'
       };
 
       const { data, error } = await supabase
@@ -283,8 +283,8 @@ const Checkout = () => {
                       style={{ width: '250px', height: '250px' }}
                     />
                   </div>
-                  <h4 style={{ marginTop: '1.5rem', color: '#444', fontSize: '1.1rem', fontWeight: 600 }}>Phone Number / UPI ID: <span style={{ color: '#881337' }}>9440180052</span></h4>
-                  <p style={{ color: '#777', fontSize: '0.9rem', marginTop: '0.5rem' }}>Send exactly <strong>₹{cartTotal}</strong> to confirm your order.</p>
+                  
+                  <p style={{ color: '#777', fontSize: '0.9rem', marginTop: '1rem' }}>Send exactly <strong>₹{cartTotal}</strong> to confirm your order.</p>
                   <div className="form-group-premium" style={{ marginBottom: '1.5rem' }}>
                     <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600 }}>UPI Transaction ID / UTR Number</label>
                     <input 

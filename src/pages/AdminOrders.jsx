@@ -144,19 +144,32 @@ const AdminOrders = () => {
               <div className="order-details-grid">
                 {/* Details Side */}
                 <div className="details-col">
-                  <div className="detail-section">
-                    <h4><User size={16} /> Customer Information</h4>
-                    <p><strong>Name:</strong> {selectedOrder.full_name}</p>
-                    <p><strong>Email:</strong> {selectedOrder.email}</p>
-                    <p><strong>Phone:</strong> {selectedOrder.phone}</p>
-                  </div>
-                  <div className="detail-section">
-                    <h4><Truck size={16} /> Delivery Address</h4>
-                    <p>{selectedOrder.address}</p>
-                    <p><strong>Pincode:</strong> {selectedOrder.pincode}</p>
-                  </div>
-                  <div className="detail-section">
-                    <h4><CheckCircle size={16} /> Manage Status</h4>
+                  {(() => {
+                    const addressParts = (selectedOrder.address || '').split(' | UTR: ');
+                    const actualAddress = addressParts[0];
+                    const utrNum = addressParts[1];
+                    return (
+                      <>
+                        <div className="detail-section">
+                          <h4><User size={16} /> Customer Information</h4>
+                          <p><strong>Name:</strong> {selectedOrder.full_name}</p>
+                          <p><strong>Email:</strong> {selectedOrder.email}</p>
+                          <p><strong>Phone:</strong> {selectedOrder.phone}</p>
+                        </div>
+                        <div className="detail-section">
+                          <h4><Truck size={16} /> Delivery Address</h4>
+                          <p>{actualAddress}</p>
+                          <p><strong>Pincode:</strong> {selectedOrder.pincode}</p>
+                        </div>
+                        {utrNum && (
+                          <div className="detail-section">
+                            <h4><CreditCard size={16} /> Payment Details</h4>
+                            <p><strong>Method:</strong> UPI</p>
+                            <p><strong>Transaction ID (UTR):</strong> <span style={{ color: '#10b981', fontWeight: 'bold' }}>{utrNum}</span></p>
+                          </div>
+                        )}
+                        <div className="detail-section">
+                          <h4><CheckCircle size={16} /> Manage Status</h4>
                     <div className="status-actions">
                       <button 
                         onClick={() => handleUpdateStatus(selectedOrder.id, 'processing')}
@@ -178,6 +191,9 @@ const AdminOrders = () => {
                       </button>
                     </div>
                   </div>
+                      </>
+                    );
+                  })()}
                 </div>
 
                 {/* Items Side */}
