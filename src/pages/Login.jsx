@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { User, Phone, Mail, ArrowRight, ShieldCheck, Loader2, Landmark, LogIn, UserPlus } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { useLanguage } from '../context/LanguageContext';
+import logoImg from '../assets/logo.png';
 import './Login.css';
 
 const Login = () => {
@@ -38,7 +39,7 @@ const Login = () => {
       <Navbar />
 
       <div className="auth-container-premium fade-in">
-        <div className="auth-card-neuromorphic scale-up">
+        <div className={`auth-card-neuromorphic scale-up ${mode === 'register' ? 'mode-register' : ''}`}>
           {/* Form Side */}
           <div className="auth-form-side">
             <div className="auth-header">
@@ -99,7 +100,7 @@ const Login = () => {
                   <Loader2 size={18} className="animate-spin" />
                 ) : (
                   <>
-                    <span>{mode === 'login' ? 'Confirm Identity' : 'Create Heritage ID'}</span>
+                    <span>{mode === 'login' ? 'Confirm Identity' : 'Create Account'}</span>
                     <ArrowRight size={18} />
                   </>
                 )}
@@ -121,7 +122,7 @@ const Login = () => {
           <div className="auth-info-side">
             <div className="info-overlay-refined">
               <div className="info-content-refined">
-                <ShieldCheck size={64} className="info-icon float" />
+                <img src={logoImg} alt="MTC Logo" className="auth-logo-panel float" />
                 <h2>{mode === 'login' ? 'Welcome Back' : 'Join the Legacy'}</h2>
                 <p>Ensuring authenticity in every grain since generations. Your path to premium trading starts here.</p>
                 <div className="auth-footer-badges">

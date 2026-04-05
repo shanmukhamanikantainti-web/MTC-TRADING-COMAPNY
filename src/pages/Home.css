@@ -1,11 +1,15 @@
 .section-padding {
-  padding: 120px 0;
+  padding: 100px 0;
+}
+
+@media (max-width: 768px) {
+  .section-padding { padding: 60px 0; }
 }
 
 .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 4%;
+  padding: 0 6%; /* Increased padding for safer mobile alignment */
 }
 
 .section-header {
@@ -227,7 +231,14 @@
 
 @media (max-width: 1024px) {
   .category-grid { grid-template-columns: 1fr; }
-  .category-card { height: 400px; }
+  .category-card { height: auto; min-height: 400px; }
   .heritage-grid { grid-template-columns: 1fr; gap: 40px; }
   .footer-grid-refined { grid-template-columns: 1fr; gap: 40px; }
+}
+
+@media (max-width: 480px) {
+  .product-grid { grid-template-columns: 1fr; }
+  .category-info { padding: 1.5rem; }
+  .category-info h3 { font-size: 1.4rem; }
+  .logo-text { font-size: 2rem; }
 }

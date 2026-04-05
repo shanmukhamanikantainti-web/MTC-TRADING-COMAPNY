@@ -1,6 +1,6 @@
 .hero {
   position: relative;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -41,6 +41,7 @@
   height: auto;
   opacity: 0.8;
   filter: drop-shadow(0 10px 30px rgba(139, 0, 0, 0.15));
+  transition: transform 0.5s ease;
 }
 
 .floating-img.tamarind { top: 15%; right: 15%; width: 180px; }
@@ -67,9 +68,9 @@
 }
 
 .hero-title {
-  font-size: clamp(3.5rem, 8vw, 5.5rem);
-  line-height: 0.95;
-  margin-bottom: 2.5rem;
+  font-size: clamp(2.2rem, 10vw, 5.5rem); /* Safer scaling for mobile */
+  line-height: 1.1;
+  margin-bottom: 2rem;
   font-weight: 800;
   letter-spacing: -0.04em;
 }
@@ -188,9 +189,65 @@
   margin-top: 5px;
 }
 
+/* RESPONSIVE ARCHITECTURE */
 @media (max-width: 968px) {
-  .hero { padding: 0 5%; }
-  .floating-img { width: 80px; }
-  .hero-stats-glass { width: 220px; height: 160px; right: 5%; }
-  .stat-num { font-size: 1.8rem; }
+  .hero { 
+    padding: 140px 5% 60px; 
+    justify-content: flex-start; 
+    min-height: auto;
+  }
+  
+  .hero-content { 
+    text-align: center; 
+    margin: 0 auto; 
+  }
+  
+  .hero-description { 
+    margin: 0 auto 3rem; 
+    font-size: 1.1rem;
+  }
+  
+  .hero-btns { 
+    justify-content: center; 
+    flex-direction: column; 
+    gap: 1rem; 
+  }
+  
+  .hero-btn-primary, .hero-btn-secondary { 
+    width: 100%; 
+    justify-content: center; 
+    padding: 1.2rem; 
+  }
+  
+  /* Reposition floating elements to avoid overlap */
+  .floating-img { width: 60px; opacity: 0.4; pointer-events: none; }
+  .floating-img.tamarind { top: 10%; right: 5%; }
+  .floating-img.chilli { top: 55%; left: 5%; transform: rotate(-20deg); }
+  .floating-img.cowpeas, .floating-img.horsegram { display: none; }
+
+  /* Transform Stats Glass into a fluid footer */
+  .hero-stats-glass { 
+    position: relative;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    background: transparent;
+    border: none;
+    backdrop-filter: none;
+    margin-top: 5rem;
+    padding: 2.5rem 0;
+    justify-content: space-around;
+    gap: 1rem;
+    border-top: 1px solid rgba(139, 0, 0, 0.1);
+  }
+  
+  .stat-num { font-size: 2rem; }
+  .hero-scroll-indicator { display: none; } /* Hide vertical text to clear space */
+}
+
+@media (max-width: 480px) {
+  .hero-title { font-size: 2.5rem; }
+  .hero-description { font-size: 1rem; padding: 0 5%; }
+  .hero-stats-glass { flex-wrap: wrap; gap: 2rem; }
 }

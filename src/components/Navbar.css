@@ -194,7 +194,18 @@
 }
 
 @media (max-width: 1024px) {
-  .nav-links { gap: 1.5rem; }
+  .nav-links { gap: 1.2rem; }
+}
+
+@media (max-width: 480px) {
+  .nav-container { padding: 0 3%; }
+  
+  .nav-logo-img { width: 34px; height: 34px; }
+  .logo-text { font-size: 1.5rem; }
+  .logo-sub { display: none; }
+  
+  .nav-actions { gap: 0.2rem; }
+  .nav-icon-btn { padding: 0.35rem; }
 }
 
 @media (max-width: 868px) {

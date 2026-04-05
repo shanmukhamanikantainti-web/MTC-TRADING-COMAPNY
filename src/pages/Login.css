@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem 1rem;
+  padding: 8rem 1.5rem 4rem; /* Increased top padding to avoid Navbar interference */
 }
 
 /* Base Card (Embossed) */
@@ -27,6 +27,11 @@
   border: 1px solid rgba(255, 255, 255, 0.5);
   position: relative;
   min-height: 600px;
+  transition: flex-direction 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.auth-card-neuromorphic.mode-register {
+  flex-direction: row-reverse;
 }
 
 /* Form Side */
@@ -151,6 +156,16 @@
   padding: 4rem;
   text-align: center;
   color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-logo-panel {
+  max-width: 150px;
+  margin-bottom: 2rem;
+  filter: drop-shadow(0 0 10px rgba(184, 134, 11, 0.5));
 }
 
 .info-content-refined h2 {
