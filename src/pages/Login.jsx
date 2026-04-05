@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { User, Phone, ArrowRight, ShieldCheck, Loader2 } from 'lucide-react';
+import { User, Phone, Mail, ArrowRight, ShieldCheck, Loader2, Landmark, LogIn, UserPlus } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import { useLanguage } from '../context/LanguageContext';
 import './Login.css';
@@ -8,11 +8,13 @@ import './Login.css';
 const Login = () => {
   const { identifyUser, t } = useLanguage();
   const [loading, setLoading] = useState(false);
+  const [mode, setMode] = useState('login'); // 'login' or 'register'
   const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
     name: '',
-    phone: '',
+    identifier: '', // Email or Phone
+    company: '',
   });
 
   const handleSubmit = (e) => {
@@ -21,10 +23,10 @@ const Login = () => {
 
     // Simulate heritage identification
     setTimeout(() => {
-      identifyUser(formData.name, formData.phone);
+      identifyUser(formData.name, formData.identifier);
       setLoading(false);
       navigate('/profile');
-    }, 800);
+    }, 1200);
   };
 
   const handleChange = (e) => {
@@ -36,14 +38,18 @@ const Login = () => {
       <Navbar />
 
       <div className="auth-container-premium fade-in">
-        <div className="auth-card-glass">
+        <div className="auth-card-neuromorphic scale-up">
           {/* Form Side */}
           <div className="auth-form-side">
             <div className="auth-header">
-              <span className="auth-subtitle">Quality Trading Since Generations</span>
-              <h1 className="auth-title">Identify Your Heritage Account</h1>
+              <span className="auth-subtitle">MTC HERITAGE PORTAL</span>
+              <h1 className="auth-title">
+                {mode === 'login' ? 'Identify Your Account' : 'Heritage Onboarding'}
+              </h1>
               <p className="auth-desc">
-                Enter your Name and Phone Number to access your order history and personalized global trading dashboard.
+                {mode === 'login' 
+                  ? 'Access your history and personalized quotes seamlessly.' 
+                  : 'Join our network of premium traders and global distributors.'}
               </p>
             </div>
 
@@ -61,52 +67,65 @@ const Login = () => {
               </div>
               
               <div className="form-group-premium">
-                <label><Phone size={16} /> Phone Number</label>
+                <label>
+                  {formData.identifier.includes('@') ? <Mail size={16} /> : <Phone size={16} />}
+                  Email or Phone Number
+                </label>
                 <input 
-                  type="tel" 
-                  name="phone"
-                  placeholder="Enter your mobile number" 
-                  value={formData.phone}
+                  type="text" 
+                  name="identifier"
+                  placeholder="e.g. +91 9170707767 or trader@mtc.com" 
+                  value={formData.identifier}
                   onChange={handleChange}
                   required 
                 />
               </div>
 
-              <button type="submit" className="auth-submit-btn-circular" disabled={loading}>
+              {mode === 'register' && (
+                <div className="form-group-premium fade-in">
+                  <label><Landmark size={16} /> Company Name (Optional)</label>
+                  <input 
+                    type="text" 
+                    name="company"
+                    placeholder="e.g. Global Exports Ltd" 
+                    value={formData.company}
+                    onChange={handleChange}
+                  />
+                </div>
+              )}
+
+              <button type="submit" className="auth-submit-btn-neuromorphic" disabled={loading}>
                 {loading ? (
                   <Loader2 size={18} className="animate-spin" />
                 ) : (
                   <>
-                    <span>{t('common.submit')}</span>
+                    <span>{mode === 'login' ? 'Confirm Identity' : 'Create Heritage ID'}</span>
                     <ArrowRight size={18} />
                   </>
                 )}
               </button>
             </form>
 
-            <div className="auth-divider">
-              <span>MTC HERITAGE TRADING</span>
+            <div className="mode-toggle-hint">
+              {mode === 'login' ? "New to the MTC network?" : "Already have a heritage ID?"}
+              <button 
+                className="mode-btn-inline" 
+                onClick={() => setMode(mode === 'login' ? 'register' : 'login')}
+              >
+                {mode === 'login' ? 'Join Now' : 'Sign In'}
+              </button>
             </div>
-            
-            <p className="auth-footer-text">
-              By entering, you agree to our <strong>Heritage Privacy Terms</strong>.
-            </p>
           </div>
 
-          {/* Info Side (Desktop only) */}
+          {/* Info Side (Heritage Splash) */}
           <div className="auth-info-side">
             <div className="info-overlay-refined">
               <div className="info-content-refined">
-                <ShieldCheck size={48} className="info-icon" />
-                <h2>MTC Authenticity</h2>
-                <ul className="info-points">
-                  <li>Track orders worldwide seamlessly</li>
-                  <li>Access personalized bulk discount quotes</li>
-                  <li>Direct connection to heritage sourcing</li>
-                </ul>
-                <div className="info-footer-badges">
-                  <span>Export Certified</span>
-                  <span>Pure Grains</span>
+                <ShieldCheck size={64} className="info-icon float" />
+                <h2>{mode === 'login' ? 'Welcome Back' : 'Join the Legacy'}</h2>
+                <p>Ensuring authenticity in every grain since generations. Your path to premium trading starts here.</p>
+                <div className="auth-footer-badges">
+                  {mode === 'login' ? <LogIn size={48} /> : <UserPlus size={48} />}
                 </div>
               </div>
             </div>

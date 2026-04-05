@@ -17,8 +17,8 @@ export const LanguageProvider = ({ children }) => {
     localStorage.setItem('mtc_lang', lang);
   };
 
-  const identifyUser = (name, phone) => {
-    const profile = { name, phone };
+  const identifyUser = (name, identifier) => {
+    const profile = { name, identifier, phone: identifier };
     setUserProfile(profile);
     localStorage.setItem('mtc_user', JSON.stringify(profile));
   };
