@@ -29,7 +29,6 @@
   min-height: 620px;
   isolation: isolate; /* Force browser to respect clipping with transformed children */
 }
- Broadway 
 
 /* Form Side */
 .auth-form-side {
@@ -148,34 +147,16 @@
   position: relative;
   transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 1;
-  /* Premium Organic Divider Shape */
+  /* Precision Organic Clip-Path Shape */
+  clip-path: ellipse(110% 140% at 100% 50%); /* Arc bowing left */
   border-radius: 0 3.5rem 3.5rem 0;
-}
-
-.auth-info-side::before {
-  content: "";
-  position: absolute;
-  top: -5%;
-  left: -4rem;
-  width: 8rem;
-  height: 110%;
-  background: inherit;
-  border-radius: 100% 0 0 100% / 50%;
-  z-index: -1;
-  transition: inherit;
 }
 
 .auth-card-neuromorphic.mode-register .auth-info-side {
   transform: translateX(-100%);
+  clip-path: ellipse(110% 140% at 0% 50%); /* Arc bowing right */
   border-radius: 3.5rem 0 0 3.5rem;
 }
-
-.auth-card-neuromorphic.mode-register .auth-info-side::before {
-  left: auto;
-  right: -4rem;
-  border-radius: 0 100% 100% 0 / 50%;
-}
- Broadway 
 
 .auth-info-side::after {
   content: "";
