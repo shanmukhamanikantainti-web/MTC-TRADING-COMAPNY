@@ -18,32 +18,37 @@
 /* Base Card (Embossed) */
 .auth-card-neuromorphic {
   width: 100%;
-  max-width: 980px; /* Refined for safety on edges */
+  max-width: 980px;
   background: var(--bg-color);
-  border-radius: 3.5rem; /* More organic corners */
+  border-radius: 3.5rem;
   display: flex;
   overflow: hidden;
   box-shadow: 15px 15px 40px #e1dfd8, -15px -15px 40px #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.4);
   position: relative;
   min-height: 620px;
+  isolation: isolate; /* Force browser to respect clipping with transformed children */
 }
+ Broadway 
 
 /* Form Side */
 .auth-form-side {
   flex: 1;
-  padding: 5rem 4rem; /* Increased internal padding to move inputs away from edges */
+  padding: 5rem 4rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 2;
   background: var(--bg-color);
+  border-radius: 3.5rem 0 0 3.5rem; /* Match parent's outer corners */
 }
 
 .auth-card-neuromorphic.mode-register .auth-form-side {
   transform: translateX(100%);
+  border-radius: 0 3.5rem 3.5rem 0; /* Flip outer corners */
 }
+ Broadway 
 
 .auth-header {
   margin-bottom: 2.5rem;
@@ -141,14 +146,36 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  overflow: hidden;
-  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: 1;
+  /* Premium Organic Divider Shape */
+  border-radius: 0 3.5rem 3.5rem 0;
+}
+
+.auth-info-side::before {
+  content: "";
+  position: absolute;
+  top: -5%;
+  left: -4rem;
+  width: 8rem;
+  height: 110%;
+  background: inherit;
+  border-radius: 100% 0 0 100% / 50%;
+  z-index: -1;
+  transition: inherit;
 }
 
 .auth-card-neuromorphic.mode-register .auth-info-side {
   transform: translateX(-100%);
+  border-radius: 3.5rem 0 0 3.5rem;
 }
+
+.auth-card-neuromorphic.mode-register .auth-info-side::before {
+  left: auto;
+  right: -4rem;
+  border-radius: 0 100% 100% 0 / 50%;
+}
+ Broadway 
 
 .auth-info-side::after {
   content: "";
