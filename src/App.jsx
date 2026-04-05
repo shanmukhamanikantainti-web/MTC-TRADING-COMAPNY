@@ -41,9 +41,9 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [navigate]);
 
-  const { language, userProfile } = useLanguage();
+  const { language } = useLanguage();
 
-  if (!language || !userProfile) {
+  if (!language) {
     return <LanguageSelect />;
   }
 
@@ -59,7 +59,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/about" element={<Heritage />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/admin-login" element={<Login />} />
+          <Route path="/login" element={<Login />} />
           
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />

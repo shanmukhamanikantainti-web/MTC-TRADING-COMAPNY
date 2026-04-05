@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
 import { supabase } from '../services/supabase';
 import { 
@@ -12,7 +13,8 @@ import {
   MapPin,
   ShoppingBag,
   Loader2,
-  Calendar
+  Calendar,
+  Lock
 } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import './Profile.css';
@@ -21,10 +23,13 @@ const Profile = () => {
   const { userProfile, t } = useLanguage();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (userProfile?.phone) {
       fetchUserOrders();
+    } else {
+      setLoading(false);
     }
   }, [userProfile]);
 
@@ -54,6 +59,26 @@ const Profile = () => {
       default: return <Package size={16} />;
     }
   };
+
+  if (!userProfile) {
+    return (
+      <div className="profile-page">
+        <Navbar />
+        <main className="profile-container empty-state-full">
+          <div className="login-cta-card glass scroll-reveal visible">
+            <div className="cta-icon-wrap">
+              <Lock size={48} className="cta-icon" />
+            </div>
+            <h1>Access Your History</h1>
+            <p>Please identify yourself to view your heritage order history and track active deliveries.</p>
+            <button className="identify-btn-premium" onClick={() => navigate('/login')}>
+              Sign In to Account <ArrowRight size={18} />
+            </button>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="profile-page">
@@ -127,7 +152,7 @@ const Profile = () => {
               <Package size={48} className="empty-icon" />
               <h3>No Orders Found</h3>
               <p>Your heritage trading journey starts with your first order.</p>
-              <button className="shop-now-btn" onClick={() => window.location.href='/products'}>
+              <button className="shop-now-btn" onClick={() => navigate('/products')}>
                 Start Shopping <ChevronRight size={18} />
               </button>
             </div>

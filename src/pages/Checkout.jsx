@@ -11,7 +11,7 @@ import './Checkout.css';
 const Checkout = () => {
   const { cart, cartTotal, clearCart } = useCart();
   const { user } = useAuth();
-  const { userProfile } = useLanguage();
+  const { userProfile, identifyUser } = useLanguage();
   const [step, setStep] = useState(1);
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
@@ -65,6 +65,11 @@ const Checkout = () => {
 
       if (error) throw error;
       
+      // Auto-identify guest if not already identified
+      if (!userProfile) {
+        identifyUser(formData.full_name, formData.phone);
+      }
+
       const newOrderId = data[0]?.id || Math.floor(Math.random() * 1000000);
       setOrderNumber(`MTC-${newOrderId}`);
       setOrderComplete(true);

@@ -1,61 +1,30 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Mail, Lock, User, ArrowRight, Github, Chrome, ShieldCheck, Loader2 } from 'lucide-react';
+import { User, Phone, ArrowRight, ShieldCheck, Loader2 } from 'lucide-react';
 import Navbar from '../components/Navbar';
-import { supabase } from '../services/supabase';
+import { useLanguage } from '../context/LanguageContext';
 import './Login.css';
 
 const Login = () => {
-  const [isLogin, setIsLogin] = useState(true);
+  const { identifyUser, t } = useLanguage();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
     name: '',
-    email: '',
-    password: '',
-    role: 'retail' // retail or dealer
+    phone: '',
   });
 
-  const toggleMode = () => {
-    setIsLogin(!isLogin);
-    setError(null);
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
 
-    try {
-      if (isLogin) {
-        const { error } = await supabase.auth.signInWithPassword({
-          email: formData.email,
-          password: formData.password,
-        });
-        if (error) throw error;
-        navigate('/');
-      } else {
-        const { error } = await supabase.auth.signUp({
-          email: formData.email,
-          password: formData.password,
-          options: {
-            data: {
-              full_name: formData.name,
-              role: formData.role,
-            }
-          }
-        });
-        if (error) throw error;
-        alert('Registration successful! Please check your email for verification.');
-        setIsLogin(true);
-      }
-    } catch (err) {
-      setError(err.message);
-    } finally {
+    // Simulate heritage identification
+    setTimeout(() => {
+      identifyUser(formData.name, formData.phone);
       setLoading(false);
-    }
+      navigate('/profile');
+    }, 800);
   };
 
   const handleChange = (e) => {
@@ -63,81 +32,52 @@ const Login = () => {
   };
 
   return (
-    <div className={`auth-page texture-bg ${isLogin ? 'is-login' : 'is-register'}`}>
+    <div className="auth-page texture-bg">
       <Navbar />
 
-      <div className="auth-container-premium scroll-reveal visible">
+      <div className="auth-container-premium fade-in">
         <div className="auth-card-glass">
           {/* Form Side */}
           <div className="auth-form-side">
             <div className="auth-header">
-              <span className="auth-subtitle">Authentic Grains & Spices</span>
-              <h1 className="auth-title">
-                {isLogin ? 'Welcome Back' : 'Join Our Legacy'}
-              </h1>
+              <span className="auth-subtitle">Quality Trading Since Generations</span>
+              <h1 className="auth-title">Identify Your Heritage Account</h1>
               <p className="auth-desc">
-                {isLogin 
-                  ? 'Access your MTC orders and personalized price quotes.' 
-                  : 'Start your trading journey with the finest agricultural source.'}
+                Enter your Name and Phone Number to access your order history and personalized global trading dashboard.
               </p>
             </div>
-            {error && <div className="auth-error-message">{error}</div>}
 
             <form className="auth-form-refined" onSubmit={handleSubmit}>
-              {!isLogin && (
-                <div className="form-group-premium">
-                  <label><User size={16} /> Full Name</label>
-                  <input 
-                    type="text" 
-                    name="name"
-                    placeholder="Enter your name" 
-                    value={formData.name}
-                    onChange={handleChange}
-                    required 
-                  />
-                </div>
-              )}
+              <div className="form-group-premium">
+                <label><User size={16} /> Full Name</label>
+                <input 
+                  type="text" 
+                  name="name"
+                  placeholder="e.g. Manikanta" 
+                  value={formData.name}
+                  onChange={handleChange}
+                  required 
+                />
+              </div>
               
               <div className="form-group-premium">
-                <label><Mail size={16} /> Email Address</label>
+                <label><Phone size={16} /> Phone Number</label>
                 <input 
-                  type="email" 
-                  name="email"
-                  placeholder="name@example.com" 
-                  value={formData.email}
+                  type="tel" 
+                  name="phone"
+                  placeholder="Enter your mobile number" 
+                  value={formData.phone}
                   onChange={handleChange}
                   required 
                 />
               </div>
-
-              <div className="form-group-premium">
-                <label><Lock size={16} /> Password</label>
-                <input 
-                  type="password" 
-                  name="password"
-                  placeholder="••••••••" 
-                  value={formData.password}
-                  onChange={handleChange}
-                  required 
-                />
-              </div>
-
-              {isLogin && (
-                <div className="form-meta">
-                  <label className="checkbox-wrap">
-                    <input type="checkbox" />
-                    <span>Remember me</span>
-                  </label>
-                  <a href="#" className="forgot-link">Forgot password?</a>
-                </div>
-              )}
 
               <button type="submit" className="auth-submit-btn-circular" disabled={loading}>
                 {loading ? (
                   <Loader2 size={18} className="animate-spin" />
                 ) : (
                   <>
-                    <span>{isLogin ? 'Sign In' : 'Create Account'}</span>
+                    <span>{t('common.submit')}</span>
                     <ArrowRight size={18} />
                   </>
                 )}
@@ -145,19 +85,11 @@ const Login = () => {
             </form>
 
             <div className="auth-divider">
-              <span>OR CONTINUE WITH</span>
-            </div>
-
-            <div className="social-auth-btns">
-              <button className="social-btn-premium"><Chrome size={20} /> Google</button>
-              <button className="social-btn-premium"><Github size={20} /> GitHub</button>
+              <span>MTC HERITAGE TRADING</span>
             </div>
             
             <p className="auth-footer-text">
-              {isLogin ? "Don't have an account?" : "Already have an account?"}
-              <button onClick={toggleMode} className="toggle-auth-btn">
-                {isLogin ? 'Sign up for free' : 'Sign in now'}
-              </button>
+              By entering, you agree to our <strong>Heritage Privacy Terms</strong>.
             </p>
           </div>
 
@@ -166,15 +98,15 @@ const Login = () => {
             <div className="info-overlay-refined">
               <div className="info-content-refined">
                 <ShieldCheck size={48} className="info-icon" />
-                <h2>Verified Trading Portal</h2>
+                <h2>MTC Authenticity</h2>
                 <ul className="info-points">
-                  <li>Real-time bulk pricing updates</li>
-                  <li>Track worldwide logistics seamlessly</li>
-                  <li>Exclusive wholesale dealer dashboards</li>
+                  <li>Track orders worldwide seamlessly</li>
+                  <li>Access personalized bulk discount quotes</li>
+                  <li>Direct connection to heritage sourcing</li>
                 </ul>
                 <div className="info-footer-badges">
-                  <span>GST Registered</span>
                   <span>Export Certified</span>
+                  <span>Pure Grains</span>
                 </div>
               </div>
             </div>
