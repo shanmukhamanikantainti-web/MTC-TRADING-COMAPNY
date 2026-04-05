@@ -122,7 +122,7 @@ const Login = () => {
           <div className="auth-info-side">
             <div className="info-overlay-refined">
               <div className="info-content-refined">
-                <img src={logoImg} alt="MTC Logo" className="auth-logo-panel float" />
+                <img src={logoImg} alt="MTC Logo" className="auth-logo-panel" />
                 <h2>{mode === 'login' ? 'Welcome Back' : 'Join the Legacy'}</h2>
                 <p>Ensuring authenticity in every grain since generations. Your path to premium trading starts here.</p>
                 <div className="auth-footer-badges">

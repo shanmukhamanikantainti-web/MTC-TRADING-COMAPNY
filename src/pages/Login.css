@@ -12,31 +12,27 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12rem 1.5rem 6rem; /* Substantially increased top padding to eliminate Navbar interference */
+  padding: 12rem 2rem 8rem; /* Substantially increased padding to guarantee zero clipping on any screen size */
 }
 
 /* Base Card (Embossed) */
 .auth-card-neuromorphic {
   width: 100%;
-  max-width: 1000px;
+  max-width: 980px; /* Refined for safety on edges */
   background: var(--bg-color);
-  border-radius: 3rem;
+  border-radius: 3.5rem; /* More organic corners */
   display: flex;
   overflow: hidden;
-  box-shadow: 20px 20px 60px #e1dfd8, -20px -20px 60px #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 15px 15px 40px #e1dfd8, -15px -15px 40px #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.4);
   position: relative;
-  min-height: 600px;
-}
-
-.auth-card-neuromorphic.mode-register {
-  /* We remove flex-direction: row-reverse and use transforms for smooth animation */
+  min-height: 620px;
 }
 
 /* Form Side */
 .auth-form-side {
-  flex: 1; /* Symmetric split for smooth sliding */
-  padding: 4rem 3rem;
+  flex: 1;
+  padding: 5rem 4rem; /* Increased internal padding to move inputs away from edges */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -175,11 +171,11 @@
 }
 
 .auth-logo-panel {
-  max-width: 180px; /* Slightly larger for presence */
+  max-width: 180px;
   margin-bottom: 2.5rem;
-  filter: brightness(0) invert(1); /* Force the logo to be purely white */
+  filter: brightness(0) invert(1);
   opacity: 0.9;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Removed float animation to keep it stable of edges */
 }
 
 .info-content-refined h2 {
